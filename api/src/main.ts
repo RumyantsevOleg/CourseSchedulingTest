@@ -14,6 +14,7 @@ async function bootstrap() {
     logger: process.env.NODE_ENV === 'development' ? ['debug', 'error', 'log', 'verbose', 'warn'] : ['error', 'warn'],
   })
 
+  // Todo. Error response format can be improved
   app.useGlobalPipes(new ValidationPipe({ transform: true, whitelist: true }))
   app.enableVersioning({
     type: VersioningType.URI,
