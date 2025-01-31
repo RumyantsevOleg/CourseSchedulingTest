@@ -131,7 +131,7 @@ async function main() {
       Subject: {
         connect: subject,
       },
-      name: 'Unit A',
+      name: 'Unit B',
       startTime: new Date('2025-01-01'),
       endTime: new Date('2025-10-12'),
     },
@@ -151,7 +151,7 @@ async function main() {
       Subject: {
         connect: subject,
       },
-      name: 'Unit A',
+      name: 'Unit C',
       startTime: new Date('2025-01-01'),
       endTime: new Date('2025-10-12'),
     },
