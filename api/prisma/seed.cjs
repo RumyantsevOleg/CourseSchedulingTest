@@ -120,7 +120,7 @@ async function main() {
   const sectionB = await prisma.section.upsert({
     where: {
       subjectId_name: {
-        name: 'Unit A',
+        name: 'Unit B',
         subjectId: subject.id,
       },
     },
@@ -140,7 +140,7 @@ async function main() {
   const sectionC = await prisma.section.upsert({
     where: {
       subjectId_name: {
-        name: 'Unit A',
+        name: 'Unit C',
         subjectId: subject.id,
       },
     },
