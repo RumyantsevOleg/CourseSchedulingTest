@@ -3,10 +3,9 @@ import { StudentProfileService } from './student-profile.service'
 import { StudentProfileController } from './student-profile.controller'
 import { UserModule } from '../user/user.module'
 import { PrismaModule } from '../common/prisma/prisma.module'
-import { StudentScheduleModule } from './student-schedule/student-schedule.module'
 
 @Module({
-  imports: [UserModule, PrismaModule, StudentProfileModule, StudentScheduleModule],
+  imports: [UserModule, PrismaModule],
   controllers: [StudentProfileController],
   providers: [StudentProfileService],
 })

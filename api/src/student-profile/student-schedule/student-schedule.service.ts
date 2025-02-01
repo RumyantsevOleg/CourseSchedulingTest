@@ -1,6 +1,7 @@
 import { Injectable, NotFoundException } from '@nestjs/common'
 import { CreateScheduleDto } from './student-schedule.dto'
 import { PrismaService } from '../../common/prisma/prisma.service'
+import { Interval } from 'luxon'
 
 @Injectable()
 export class StudentScheduleService {
