@@ -121,13 +121,29 @@ model Section {
   classroomId String    @db.Uuid
 
   SectionSubscriptions SectionSubscription[]
+  SectionSchedule      SectionSchedule[]
 
   @@unique([subjectId, name])
   @@index([teacherId])
 }
 
+model SectionSchedule {
+  // Todo add invalidation logic (if schedule was updated by teacher)
+  id        String @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  sectionId String @db.Uuid
+
+  startTime Int
+  endTime   Int
+
+  Section Section @relation(fields: [sectionId], references: [id])
+
+  @@unique([sectionId, startTime])
+  @@index([sectionId])
+}
+
 // --------------------------------------------------------
 model SectionSubscription {
+  // Todo add invalidation logic (if schedule was updated by teacher)
   id String @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
 
   Section   Section @relation(fields: [sectionId], references: [id])
@@ -137,6 +153,6 @@ model SectionSubscription {
   studentId      String         @db.Uuid
 
   @@unique([sectionId, studentId])
-  @@index([sectionId])
-  @@index([studentId])
+  @@index(sectionId)
+  @@index(studentId)
 }
