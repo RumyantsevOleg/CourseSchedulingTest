@@ -5,7 +5,7 @@ import { AccessJwtPayload } from '../common/decorators/auth.decorator'
 import { AccessJwtDto } from '../common/types'
 
 // Todo Add Guard
-@Controller('student-profile')
+@Controller('student-profiles')
 export class StudentProfileController {
   constructor(private readonly studentService: StudentProfileService) {}
 

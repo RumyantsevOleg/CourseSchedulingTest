@@ -2,7 +2,7 @@ import { Controller, Get, Post, Body, Param, Delete } from '@nestjs/common'
 import { SectionService } from './section.service'
 import { CreateSectionDto } from './section.dto'
 
-@Controller('teacher-profile/:teacherId/subject/:subjectId/section')
+@Controller('teacher-profile/:teacherId/subjects/:subjectId/sections')
 export class SectionController {
   constructor(private readonly sectionService: SectionService) {}
 

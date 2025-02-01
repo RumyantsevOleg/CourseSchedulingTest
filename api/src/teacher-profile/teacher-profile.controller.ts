@@ -2,7 +2,7 @@ import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/commo
 import { TeacherProfileService } from './teacher-profile.service'
 import { TeacherProfileDto } from './teacher-profile.dto'
 
-@Controller('teacher-profile')
+@Controller('teacher-profiles')
 export class TeacherProfileController {
   constructor(private readonly teacherService: TeacherProfileService) {}
 
