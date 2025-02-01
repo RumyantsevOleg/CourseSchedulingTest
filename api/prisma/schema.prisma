@@ -108,8 +108,8 @@ model Section {
   id          String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   name        String
   description String?
-  startTime   DateTime
-  endTime     DateTime
+  startDate   DateTime
+  endDate     DateTime
 
   Subject   Subject @relation(fields: [subjectId], references: [id])
   subjectId String  @db.Uuid
@@ -128,10 +128,10 @@ model Section {
 }
 
 model SectionSchedule {
-  // Todo add invalidation logic (if schedule was updated by teacher)
   id        String @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   sectionId String @db.Uuid
 
+  // Todo. We can add system day, time (with sting value)
   startTime Int
   endTime   Int
 

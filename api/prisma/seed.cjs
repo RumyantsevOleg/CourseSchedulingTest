@@ -112,8 +112,25 @@ async function main() {
         connect: subject,
       },
       name: 'Unit A',
-      startTime: new Date('2025-01-01'),
-      endTime: new Date('2025-10-12'),
+      startDate: new Date('2025-01-01'),
+      endDate: new Date('2025-10-12'),
+
+      SectionSchedule: {
+        create: [
+          {
+            startTime: 100000,
+            endTime: 200000,
+          },
+          {
+            startTime: 300000,
+            endTime: 400000,
+          },
+          {
+            startTime: 900000,
+            endTime: 1100000,
+          },
+        ],
+      },
     },
   })
 
@@ -132,8 +149,25 @@ async function main() {
         connect: subject,
       },
       name: 'Unit B',
-      startTime: new Date('2025-01-01'),
-      endTime: new Date('2025-10-12'),
+      startDate: new Date('2025-01-01'),
+      endDate: new Date('2025-10-12'),
+
+      SectionSchedule: {
+        create: [
+          {
+            startTime: 150000,
+            endTime: 200000,
+          },
+          {
+            startTime: 350000,
+            endTime: 400000,
+          },
+          {
+            startTime: 950000,
+            endTime: 1100000,
+          },
+        ],
+      },
     },
   })
 
@@ -152,8 +186,25 @@ async function main() {
         connect: subject,
       },
       name: 'Unit C',
-      startTime: new Date('2025-01-01'),
-      endTime: new Date('2025-10-12'),
+      startDate: new Date('2025-01-01'),
+      endDate: new Date('2025-10-12'),
+
+      SectionSchedule: {
+        create: [
+          {
+            startTime: 230000,
+            endTime: 2500000,
+          },
+          {
+            startTime: 300000,
+            endTime: 400000,
+          },
+          {
+            startTime: 900000,
+            endTime: 1100000,
+          },
+        ],
+      },
     },
   })
 
