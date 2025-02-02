@@ -1,8 +1,8 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common'
+import { Controller, Get, Post, Body, Patch, Param, Delete, ParseUUIDPipe } from '@nestjs/common'
 import { SubjectService } from './subject.service'
 import { SubjectDto } from './subject.dto'
 
-@Controller('teacher-profiles/:teacherId/subjects')
+@Controller('teacher-profiles/:teacherProfileId/subjects')
 export class SubjectController {
   constructor(private readonly subjectService: SubjectService) {}
 
@@ -12,8 +12,8 @@ export class SubjectController {
   }
 
   @Get()
-  findAll() {
-    return this.subjectService.findAll()
+  findAll(@Param('teacherProfileId', new ParseUUIDPipe()) teacherProfileId: string) {
+    return this.subjectService.findAll(teacherProfileId)
   }
 
   @Get(':id')

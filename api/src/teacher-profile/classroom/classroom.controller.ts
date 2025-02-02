@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common'
+import { Controller, Get, Post, Body, Patch, Param, Delete, ParseUUIDPipe } from '@nestjs/common'
 import { ClassroomService } from './classroom.service'
 import { ClassroomDto } from './classroom.dto'
 
@@ -12,8 +12,8 @@ export class ClassroomController {
   }
 
   @Get()
-  findAll() {
-    return this.classroomService.findAll()
+  findMany(@Param('teacherId', new ParseUUIDPipe()) teacherId: string) {
+    return this.classroomService.findMany(teacherId)
   }
 
   @Get(':id')

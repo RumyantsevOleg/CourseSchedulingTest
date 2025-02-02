@@ -1,4 +1,15 @@
-import { IsString, Matches, IsIn, IsNotEmpty, IsArray, ValidateNested, IsObject, IsUUID } from 'class-validator'
+import {
+  IsString,
+  Matches,
+  IsIn,
+  IsNotEmpty,
+  IsArray,
+  ValidateNested,
+  IsObject,
+  IsUUID,
+  IsDateString,
+  IsOptional,
+} from 'class-validator'
 import { Type } from 'class-transformer'
 import { Section } from '@prisma/client'
 
@@ -15,6 +26,8 @@ enum DaysOfWeek {
 const timePattern = /^([01]?[0-9]|2[0-3]):([0-5][0-9])$/
 
 class SectionSchedule {
+  @IsNotEmpty()
+  @IsString()
   @IsIn(Object.values(DaysOfWeek))
   day: DaysOfWeek
 
@@ -30,11 +43,21 @@ class SectionSchedule {
 }
 
 export class CreateSectionDto implements Partial<Section> {
+  @IsString()
+  name: string
+
+  @IsString()
+  @IsOptional()
+  description: string
+
   @IsUUID()
   classroomId: string
 
-  @IsUUID()
-  subjectId: string
+  @IsDateString()
+  startDate: Date
+
+  @IsDateString()
+  endDate: Date
 
   @IsArray()
   @ValidateNested({ each: true })
