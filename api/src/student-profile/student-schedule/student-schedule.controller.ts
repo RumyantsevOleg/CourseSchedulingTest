@@ -4,7 +4,9 @@ import { StudentScheduleService } from './student-schedule.service'
 import { CreateScheduleDto } from './student-schedule.dto'
 import { AccessJwtPayload } from '../../common/decorators/auth.decorator'
 import { AccessJwtDto } from '../../common/types'
-import { generatePDF, generateScheduleHTML } from '../../common/utilities/pdf'
+
+import * as PdfDocument from 'pdfkit'
+import { generatePDF } from '../../common/utilities/pdf'
 
 // Todo Add Guard
 @Controller('student-profiles/:studentId/schedules')
@@ -37,14 +39,16 @@ export class StudentScheduleController {
     return this.scheduleService.getStudentSchedules(studentId)
   }
 
-  // Todo this is temporary solution. It is good idea to render files with queue and save it with S3
+  // Todo this is temporary solution. It is good idea to render files with queue and save it with S3. Or implement cashing
   @Get('/pdf')
   public async getPdfSchedule(@Param('studentId', new ParseUUIDPipe()) studentId: string, @Res() res: Response) {
-    const schedule = await this.scheduleService.getStudentSchedules(studentId)
-    const content = generateScheduleHTML(schedule)
-    const pdf = await generatePDF(content)
+    const stream = res.writeHead(200, {
+      'Content-Type': 'application/pdf',
+      'Content-Disposition': 'attachment;filename=schedule.pdf',
+    })
 
-    res.contentType('application/pdf')
-    res.send(pdf)
+    const scheduleData = await this.scheduleService.getStudentSchedules(studentId)
+
+    return generatePDF(scheduleData, studentId, stream)
   }
 }
