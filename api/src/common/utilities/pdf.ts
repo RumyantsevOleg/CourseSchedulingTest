@@ -9,13 +9,34 @@ const formatTime = (timeInMinutes: number) => {
 // Todo this is fast solution. We can improve pdf generation architecture (use models etc).
 //  We can improve architecture form performance perspective. (Use different types of scaling, microservices, queue etc
 //  But for quick solution and MVP we can use this
+
 export async function generatePDF(htmlContent: string) {
-  const browser = await puppeteer.launch()
-  const page = await browser.newPage()
-  await page.setContent(htmlContent)
-  const pdfBuffer = await page.pdf({ format: 'A4' })
-  await browser.close()
-  return pdfBuffer
+  let browser
+  try {
+    browser = await puppeteer.launch({
+      headless: false, // С включенным интерфейсом для отладки
+      args: ['--no-sandbox', '--disable-setuid-sandbox'], // Дополнительные параметры для запуска
+    })
+
+    const page = await browser.newPage()
+
+    await page.setContent(htmlContent, { waitUntil: 'load' })
+
+    await page.waitForSelector('body', { visible: true })
+
+    page.on('console', msg => console.log('PAGE LOG:', msg.text()))
+
+    const pdfBuffer = await page.pdf({ format: 'A4', printBackground: true })
+
+    return pdfBuffer
+  } catch (error) {
+    console.error('Error generating PDF:', error)
+    throw error
+  } finally {
+    if (browser) {
+      // await browser.close()
+    }
+  }
 }
 
 // Todo update this type

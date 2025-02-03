@@ -42,7 +42,6 @@ export class StudentScheduleController {
   public async getPdfSchedule(@Param('studentId', new ParseUUIDPipe()) studentId: string, @Res() res: Response) {
     const schedule = await this.scheduleService.getStudentSchedules(studentId)
     const content = generateScheduleHTML(schedule)
-    console.log('content', content)
     const pdf = await generatePDF(content)
 
     res.contentType('application/pdf')
