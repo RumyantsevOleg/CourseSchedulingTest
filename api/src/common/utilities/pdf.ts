@@ -14,8 +14,8 @@ export async function generatePDF(htmlContent: string) {
   let browser
   try {
     browser = await puppeteer.launch({
-      headless: false, // С включенным интерфейсом для отладки
-      args: ['--no-sandbox', '--disable-setuid-sandbox'], // Дополнительные параметры для запуска
+      headless: false,
+      args: ['--no-sandbox', '--disable-setuid-sandbox'],
     })
 
     const page = await browser.newPage()
