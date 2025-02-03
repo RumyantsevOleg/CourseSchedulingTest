@@ -84,14 +84,24 @@ export class StudentScheduleService {
   }
 
   public async findMany(studentId: string) {
-    return this.prismaService.sectionSubscription.findMany({
+    const data = await this.prismaService.sectionSubscription.findMany({
       where: {
         studentId,
       },
-      include: {
-        Section: true,
+      select: {
+        Section: {
+          select: {
+            SectionSchedule: {
+              include: {
+                Section: true,
+              },
+            },
+          },
+        },
       },
     })
+
+    return data.flatMap(elem => elem.Section.SectionSchedule)
   }
 
   public async delete(scheduleId: string, studentId: string) {
