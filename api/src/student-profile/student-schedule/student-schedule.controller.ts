@@ -15,7 +15,7 @@ export class StudentScheduleController {
     @AccessJwtPayload() accessJwtPayload: AccessJwtDto,
     @Param('studentId') studentId: string,
   ) {
-    return await this.scheduleService.create(createScheduleDto, studentId)
+    return await this.scheduleService.createSectionSubscription(createScheduleDto, studentId)
   }
 
   @Delete(':scheduleId')

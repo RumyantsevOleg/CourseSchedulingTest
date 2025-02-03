@@ -1,45 +1,16 @@
-import {
-  IsString,
-  Matches,
-  IsIn,
-  IsNotEmpty,
-  IsArray,
-  ValidateNested,
-  IsObject,
-  IsUUID,
-  IsDateString,
-  IsOptional,
-} from 'class-validator'
+import { IsString, IsIn, IsArray, ValidateNested, IsUUID, IsDateString, IsOptional, IsNumber } from 'class-validator'
 import { Type } from 'class-transformer'
 import { Section } from '@prisma/client'
 
-enum DaysOfWeek {
-  Monday = 'Monday',
-  Tuesday = 'Tuesday',
-  Wednesday = 'Wednesday',
-  Thursday = 'Thursday',
-  Friday = 'Friday',
-  Saturday = 'Saturday',
-  Sunday = 'Sunday',
-}
-
-const timePattern = /^([01]?[0-9]|2[0-3]):([0-5][0-9])$/
-
 class SectionSchedule {
-  @IsNotEmpty()
-  @IsString()
-  @IsIn(Object.values(DaysOfWeek))
-  day: DaysOfWeek
+  @IsIn([1, 2, 3, 4, 5, 6, 7])
+  day: number // 1 - Mon; 7 - Sat
 
-  @IsString()
-  @Matches(timePattern, { message: 'startTime should be in the format HH:mm' })
-  @IsNotEmpty()
-  startTime: string
+  @IsNumber()
+  startTime: number // Minutes
 
-  @IsString()
-  @Matches(timePattern, { message: 'endTime should be in the format HH:mm' })
-  @IsNotEmpty()
-  endTime: string
+  @IsNumber()
+  durationMin: number // Minutes
 }
 
 export class CreateSectionDto implements Partial<Section> {

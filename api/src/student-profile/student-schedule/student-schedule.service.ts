@@ -7,7 +7,7 @@ import { Interval } from 'luxon'
 export class StudentScheduleService {
   constructor(private readonly prismaService: PrismaService) {}
 
-  public async create(createScheduleDto: CreateScheduleDto, studentId: string) {
+  public async createSectionSubscription(createScheduleDto: CreateScheduleDto, studentId: string) {
     const section = await this.prismaService.section.findUnique({
       where: {
         id: createScheduleDto.sectionId,
@@ -16,6 +16,29 @@ export class StudentScheduleService {
     if (!section) {
       throw new NotFoundException(`No section found with id ${createScheduleDto.sectionId}`)
     }
+
+    const schedule = await this.prismaService.sectionSubscription
+      .findMany({
+        where: {
+          studentId,
+        },
+        select: {
+          Section: {
+            select: {
+              SectionSchedule: {
+                select: {
+                  day: true,
+                  durationMin: true,
+                  startTime: true,
+                },
+              },
+            },
+          },
+        },
+      })
+      .then(data => data.flatMap(subscription => subscription.Section.SectionSchedule))
+    console.log('schedule')
+    console.log(schedule)
 
     return this.prismaService.sectionSubscription.create({
       data: {

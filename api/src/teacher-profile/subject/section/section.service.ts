@@ -12,19 +12,8 @@ export class SectionService {
     { teacherId, subjectId }: { teacherId: string; subjectId: string },
   ) {
     const { schedule, ...creationPayload } = createSectionDto
-    const scheduleNumberFormat = schedule.map(({ startTime, endTime, day }) => {
-      const localStartTime = DateTime.fromFormat(`${day} ${startTime}`, 'cccc HH:mm')
-      const localEndTime = DateTime.fromFormat(`${day} ${endTime}`, 'cccc HH:mm')
-      console.log('localStartTime, localEndTime')
-      console.log(localStartTime.toUTC(), localEndTime.toUTC())
 
-      return {
-        startTime: 1000,
-        endTime: 1500,
-      }
-    })
-
-    // Todo we can validate teacherId,classroomId and subjectId existing
+    // Todo we can validate teacherId,classroomId and subjectId existing. And overlap check
     return this.prismaService.section.create({
       data: {
         ...creationPayload,
@@ -33,7 +22,7 @@ export class SectionService {
         SectionSchedule: {
           // Todo
           createMany: {
-            data: [],
+            data: schedule,
           },
         },
       },
