@@ -5,8 +5,7 @@ import { CreateScheduleDto } from './student-schedule.dto'
 import { AccessJwtPayload } from '../../common/decorators/auth.decorator'
 import { AccessJwtDto } from '../../common/types'
 
-import * as PdfDocument from 'pdfkit'
-import { generatePDF } from '../../common/utilities/pdf'
+import { generatePDFSchedule } from '../../common/utilities/pdf'
 
 // Todo Add Guard
 @Controller('student-profiles/:studentId/schedules')
@@ -49,6 +48,6 @@ export class StudentScheduleController {
 
     const scheduleData = await this.scheduleService.getStudentSchedules(studentId)
 
-    return generatePDF(scheduleData, studentId, stream)
+    return generatePDFSchedule(scheduleData, studentId, stream)
   }
 }

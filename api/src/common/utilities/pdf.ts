@@ -19,7 +19,10 @@ const formatTime = (minutes: number) => {
   return `${hours}:${mins < 10 ? '0' + mins : mins}`
 }
 
-export function generatePDF(scheduleData: IGeneratePdf, studentId: string, stream: any) {
+// Todo this is fast solution. We can improve pdf generation architecture (use models etc).
+//  We can improve architecture form performance perspective. (Use different types of scaling, microservices, queue etc
+//  But for quick solution and MVP we can use this
+export function generatePDFSchedule(scheduleData: IGeneratePdf, studentId: string, stream: any) {
   const doc = new PdfDocument()
   doc.on('data', chunk => stream.write(chunk))
   doc.on('end', () => stream.end())
