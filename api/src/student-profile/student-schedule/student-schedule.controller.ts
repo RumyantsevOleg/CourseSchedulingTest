@@ -1,8 +1,10 @@
-import { Controller, Get, Post, Body, Param, Delete, ParseUUIDPipe } from '@nestjs/common'
+import { Controller, Get, Post, Body, Param, Delete, ParseUUIDPipe, Res } from '@nestjs/common'
+import { Response } from 'express'
 import { StudentScheduleService } from './student-schedule.service'
 import { CreateScheduleDto } from './student-schedule.dto'
 import { AccessJwtPayload } from '../../common/decorators/auth.decorator'
 import { AccessJwtDto } from '../../common/types'
+import { generatePDF, generateScheduleHTML } from '../../common/utilities/pdf'
 
 // Todo Add Guard
 @Controller('student-profiles/:studentId/schedules')
@@ -33,5 +35,17 @@ export class StudentScheduleController {
     @AccessJwtPayload() accessJwtPayload: AccessJwtDto,
   ) {
     return this.scheduleService.getStudentSchedules(studentId)
+  }
+
+  // Todo this is temporary solution. It is good idea to render files with queue and save it with S3
+  @Get('/pdf')
+  public async getPdfSchedule(@Param('studentId', new ParseUUIDPipe()) studentId: string, @Res() res: Response) {
+    const schedule = await this.scheduleService.getStudentSchedules(studentId)
+    const content = generateScheduleHTML(schedule)
+    console.log('content', content)
+    const pdf = await generatePDF(content)
+
+    res.contentType('application/pdf')
+    res.send(pdf)
   }
 }
