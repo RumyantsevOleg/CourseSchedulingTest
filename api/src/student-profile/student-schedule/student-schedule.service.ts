@@ -30,28 +30,39 @@ export class StudentScheduleService {
     })
   }
 
-  public async isConflicts(studentId, newShedules: SectionSchedule[]) {
-    const schedules = await this.getStudentSchedules(studentId)
-
-    // Todo this can be optimized. O(n**2)
-    return schedules.find(({ startTime, durationMin, day }) => {
-      const endTime = startTime + durationMin
-
-      return newShedules.find(newSchedule => {
-        if (newSchedule.day === day) {
-          if (newSchedule.startTime >= startTime && newSchedule.startTime <= endTime) {
-            return true
-          }
-
-          const newScheduleEndTime = newSchedule.startTime + endTime
-          if (newScheduleEndTime >= startTime && newScheduleEndTime <= endTime) {
-            return true
-          }
-        }
-
-        return false
-      })
+  public async isConflicts(studentId: string, newSchedules: SectionSchedule[]) {
+    const conflictingSchedule = await this.prismaService.sectionSchedule.findFirst({
+      where: {
+        Section: {
+          SectionSubscriptions: {
+            some: {
+              studentId: studentId,
+            },
+          },
+        },
+        OR: newSchedules.map(schedule => ({
+          day: schedule.day,
+          OR: [
+            {
+              startTime: {
+                gte: schedule.startTime, // Проверяем, что новое расписание начинается позже или одновременно с текущим
+                lt: schedule.startTime + schedule.durationMin, // И заканчивается раньше нового расписания
+              },
+            },
+            {
+              startTime: {
+                lt: schedule.startTime, // Если текущее расписание начинается до нового
+              },
+              endTime: {
+                gte: schedule.startTime + schedule.durationMin, // И заканчивается после конца нового
+              },
+            },
+          ],
+        })),
+      },
     })
+
+    return Boolean(conflictingSchedule) // Возвращаем true, если найден конфликт
   }
 
   public async createSectionSubscription(createScheduleDto: CreateScheduleDto, studentId: string) {

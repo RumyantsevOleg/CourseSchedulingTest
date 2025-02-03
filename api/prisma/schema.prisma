@@ -134,6 +134,7 @@ model SectionSchedule {
   day Int // 1 - Mon; 7 - Sat
 
   startTime   Int
+  endTime     Int
   durationMin Int // Duration in minutes
 
   Section Section @relation(fields: [sectionId], references: [id])

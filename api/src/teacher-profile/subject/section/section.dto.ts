@@ -11,6 +11,9 @@ class SectionSchedule {
 
   @IsNumber()
   durationMin: number // Minutes
+
+  @IsNumber()
+  endTime: number // Minutes
 }
 
 export class CreateSectionDto implements Partial<Section> {

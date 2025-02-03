@@ -119,16 +119,19 @@ async function main() {
         create: [
           {
             startTime: 660,
+            endTime: 660 + 90,
             durationMin: 90,
             day: 1,
           },
           {
             startTime: 660,
+            endTime: 660 + 90,
             durationMin: 90,
             day: 2,
           },
           {
             startTime: 800,
+            endTime: 660 + 90,
             durationMin: 30,
             day: 7,
           },
@@ -159,16 +162,19 @@ async function main() {
         create: [
           {
             startTime: 660,
+            endTime: 660 + 90,
             durationMin: 90,
             day: 1,
           },
           {
             startTime: 660,
+            endTime: 660 + 90,
             durationMin: 90,
             day: 2,
           },
           {
             startTime: 800,
+            endTime: 880 + 30,
             durationMin: 30,
             day: 7,
           },
@@ -199,16 +205,19 @@ async function main() {
         create: [
           {
             startTime: 660,
+            endTime: 660 + 90,
             durationMin: 90,
             day: 1,
           },
           {
             startTime: 660,
+            endTime: 660 + 90,
             durationMin: 90,
             day: 2,
           },
           {
             startTime: 800,
+            endTime: 660 + 90,
             durationMin: 30,
             day: 7,
           },
