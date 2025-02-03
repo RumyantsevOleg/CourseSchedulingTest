@@ -118,16 +118,19 @@ async function main() {
       SectionSchedule: {
         create: [
           {
-            startTime: 100000,
-            endTime: 200000,
+            startTime: 660,
+            durationMin: 90,
+            day: 1,
           },
           {
-            startTime: 300000,
-            endTime: 400000,
+            startTime: 660,
+            durationMin: 90,
+            day: 2,
           },
           {
-            startTime: 900000,
-            endTime: 1100000,
+            startTime: 800,
+            durationMin: 30,
+            day: 7,
           },
         ],
       },
@@ -155,16 +158,19 @@ async function main() {
       SectionSchedule: {
         create: [
           {
-            startTime: 150000,
-            endTime: 200000,
+            startTime: 660,
+            durationMin: 90,
+            day: 1,
           },
           {
-            startTime: 350000,
-            endTime: 400000,
+            startTime: 660,
+            durationMin: 90,
+            day: 2,
           },
           {
-            startTime: 950000,
-            endTime: 1100000,
+            startTime: 800,
+            durationMin: 30,
+            day: 7,
           },
         ],
       },
@@ -192,16 +198,19 @@ async function main() {
       SectionSchedule: {
         create: [
           {
-            startTime: 230000,
-            endTime: 2500000,
+            startTime: 660,
+            durationMin: 90,
+            day: 1,
           },
           {
-            startTime: 300000,
-            endTime: 400000,
+            startTime: 660,
+            durationMin: 90,
+            day: 2,
           },
           {
-            startTime: 900000,
-            endTime: 1100000,
+            startTime: 800,
+            durationMin: 30,
+            day: 7,
           },
         ],
       },

@@ -63,13 +63,24 @@ CREATE TABLE "Section" (
     "id" UUID NOT NULL DEFAULT gen_random_uuid(),
     "name" TEXT NOT NULL,
     "description" TEXT,
-    "startTime" TIMESTAMP(3) NOT NULL,
-    "endTime" TIMESTAMP(3) NOT NULL,
+    "startDate" TIMESTAMP(3) NOT NULL,
+    "endDate" TIMESTAMP(3) NOT NULL,
     "subjectId" UUID NOT NULL,
     "teacherId" UUID NOT NULL,
     "classroomId" UUID NOT NULL,
 
     CONSTRAINT "Section_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
+CREATE TABLE "SectionSchedule" (
+    "id" UUID NOT NULL DEFAULT gen_random_uuid(),
+    "sectionId" UUID NOT NULL,
+    "day" INTEGER NOT NULL,
+    "startTime" INTEGER NOT NULL,
+    "durationMin" INTEGER NOT NULL,
+
+    CONSTRAINT "SectionSchedule_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateTable
@@ -118,6 +129,12 @@ CREATE INDEX "Section_teacherId_idx" ON "Section"("teacherId");
 CREATE UNIQUE INDEX "Section_subjectId_name_key" ON "Section"("subjectId", "name");
 
 -- CreateIndex
+CREATE INDEX "SectionSchedule_sectionId_idx" ON "SectionSchedule"("sectionId");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "SectionSchedule_sectionId_startTime_day_key" ON "SectionSchedule"("sectionId", "startTime", "day");
+
+-- CreateIndex
 CREATE INDEX "SectionSubscription_sectionId_idx" ON "SectionSubscription"("sectionId");
 
 -- CreateIndex
@@ -146,6 +163,9 @@ ALTER TABLE "Section" ADD CONSTRAINT "Section_teacherId_fkey" FOREIGN KEY ("teac
 
 -- AddForeignKey
 ALTER TABLE "Section" ADD CONSTRAINT "Section_classroomId_fkey" FOREIGN KEY ("classroomId") REFERENCES "Classroom"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "SectionSchedule" ADD CONSTRAINT "SectionSchedule_sectionId_fkey" FOREIGN KEY ("sectionId") REFERENCES "Section"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "SectionSubscription" ADD CONSTRAINT "SectionSubscription_sectionId_fkey" FOREIGN KEY ("sectionId") REFERENCES "Section"("id") ON DELETE RESTRICT ON UPDATE CASCADE;

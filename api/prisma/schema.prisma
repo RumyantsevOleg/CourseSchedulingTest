@@ -131,13 +131,14 @@ model SectionSchedule {
   id        String @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   sectionId String @db.Uuid
 
-  // Todo. We can add system day, time (with sting value)
-  startTime Int
-  endTime   Int
+  day Int // 1 - Mon; 7 - Sat
+
+  startTime   Int
+  durationMin Int // Duration in minutes
 
   Section Section @relation(fields: [sectionId], references: [id])
 
-  @@unique([sectionId, startTime])
+  @@unique([sectionId, startTime, day])
   @@index([sectionId])
 }
 
