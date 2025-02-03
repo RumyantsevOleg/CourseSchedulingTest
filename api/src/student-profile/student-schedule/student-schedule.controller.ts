@@ -32,6 +32,6 @@ export class StudentScheduleController {
     @Param('studentId', new ParseUUIDPipe()) studentId: string,
     @AccessJwtPayload() accessJwtPayload: AccessJwtDto,
   ) {
-    return this.scheduleService.findMany(studentId)
+    return this.scheduleService.getStudentSchedules(studentId)
   }
 }

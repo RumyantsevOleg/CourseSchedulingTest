@@ -9,26 +9,25 @@ export class StudentScheduleService {
   constructor(private readonly prismaService: PrismaService) {}
 
   public async getStudentSchedules(studentId: string) {
-    const data = await this.prismaService.sectionSubscription.findMany({
+    return this.prismaService.sectionSchedule.findMany({
       where: {
-        studentId,
-      },
-      select: {
         Section: {
-          select: {
-            SectionSchedule: {
-              select: {
-                day: true,
-                durationMin: true,
-                startTime: true,
-              },
-            },
+          SectionSubscriptions: {
+            some: { studentId },
+          },
+
+          endDate: {
+            gte: new Date().toISOString(),
           },
         },
       },
-    })
 
-    return data.flatMap(subscription => subscription.Section.SectionSchedule)
+      include: {
+        Section: true,
+      },
+
+      orderBy: [{ day: 'asc' }, { startTime: 'asc' }],
+    })
   }
 
   public async isConflicts(studentId, newShedules: SectionSchedule[]) {
@@ -49,9 +48,9 @@ export class StudentScheduleService {
             return true
           }
         }
-      })
 
-      return false
+        return false
+      })
     })
   }
 
@@ -69,10 +68,8 @@ export class StudentScheduleService {
     }
 
     const isConflict = await this.isConflicts(studentId, section.SectionSchedule)
-    console.log('isConflict')
-    console.log(isConflict)
     if (isConflict) {
-      throw new ConflictException('Time overlap conflict')
+      throw new ConflictException('Time overlap conflict found')
     }
 
     return this.prismaService.sectionSubscription.create({
@@ -81,27 +78,6 @@ export class StudentScheduleService {
         sectionId: createScheduleDto.sectionId,
       },
     })
-  }
-
-  public async findMany(studentId: string) {
-    const data = await this.prismaService.sectionSubscription.findMany({
-      where: {
-        studentId,
-      },
-      select: {
-        Section: {
-          select: {
-            SectionSchedule: {
-              include: {
-                Section: true,
-              },
-            },
-          },
-        },
-      },
-    })
-
-    return data.flatMap(elem => elem.Section.SectionSchedule)
   }
 
   public async delete(scheduleId: string, studentId: string) {
