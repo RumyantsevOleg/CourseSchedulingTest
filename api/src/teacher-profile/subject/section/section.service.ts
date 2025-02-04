@@ -33,15 +33,15 @@ export class SectionService {
     return `This action returns all section`
   }
 
-  findOne(id: number) {
+  findOne(id: string) {
     return `This action returns a #${id} section`
   }
 
-  update(id: number, updateSectionDto) {
+  update(id: string, updateSectionDto) {
     return `This action updates a #${id} section`
   }
 
-  remove(id: number) {
+  remove(id: string) {
     return `This action removes a #${id} section`
   }
 }
