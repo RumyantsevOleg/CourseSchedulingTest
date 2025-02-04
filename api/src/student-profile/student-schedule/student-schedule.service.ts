@@ -8,6 +8,7 @@ import { SectionSchedule } from '@prisma/client'
 export class StudentScheduleService {
   constructor(private readonly prismaService: PrismaService) {}
 
+  // Todo Add time limit for expired sections
   public async getStudentSchedules(studentId: string) {
     return this.prismaService.sectionSchedule.findMany({
       where: {
@@ -23,13 +24,28 @@ export class StudentScheduleService {
       },
 
       include: {
-        Section: true,
+        Section: {
+          include: {
+            Classroom: {
+              select: {
+                id: true,
+                name: true,
+              },
+            },
+            Subject: {
+              select: {
+                name: true,
+              },
+            },
+          },
+        },
       },
 
       orderBy: [{ day: 'asc' }, { startTime: 'asc' }],
     })
   }
 
+  // Todo Add time limit for expired sections
   public async isConflicts(studentId: string, newSchedules: SectionSchedule[]) {
     const conflictingSchedule = await this.prismaService.sectionSchedule.findFirst({
       where: {

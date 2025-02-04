@@ -36,6 +36,7 @@ export function generatePDFSchedule(scheduleData: IGeneratePdf, studentId: strin
   const tableTop = doc.y
   const columnWidth = { day: 50, startTime: 80, endTime: 80, section: 200 }
 
+  // Todo update doc (Add additional fields)
   doc
     .fontSize(12)
     .font('Helvetica-Bold')
