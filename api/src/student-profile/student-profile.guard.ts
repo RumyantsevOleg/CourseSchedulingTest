@@ -9,16 +9,17 @@ export class StudentProfileGuard implements CanActivate {
   public canActivate(context: ExecutionContext): boolean {
     const request = context.switchToHttp().getRequest()
 
-    const user = request.user as AccessJwtDto
-
-    const studentProfileId = request.user.studentProfileId
+    const studentProfileId = request?.params?.studentProfileId
     if (!studentProfileId) {
-      return true
-    }
-    if (user.studentProfileIds.includes(studentProfileId)) {
+      console.log('here')
       return true
     }
 
-    throw new ForbiddenException('Access error')
+    const user = request.user as AccessJwtDto
+    if (!user) {
+      return false
+    }
+
+    return user?.studentProfileIds?.includes(studentProfileId)
   }
 }

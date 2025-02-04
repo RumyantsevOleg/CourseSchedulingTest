@@ -10,16 +10,16 @@ export class TeacherProfileGuard implements CanActivate {
   public canActivate(context: ExecutionContext): boolean {
     const request = context.switchToHttp().getRequest()
 
-    const user = request.user as AccessJwtDto
-
     const teacherProfile = request?.params?.teacherProfileId
     if (!teacherProfile) {
       return true
     }
-    if (user.teacherProfileIds.includes(teacherProfile)) {
-      return true
+
+    const user = request.user as AccessJwtDto
+    if (!user) {
+      return false
     }
 
-    throw new ForbiddenException('Access error')
+    return user?.teacherProfileIds?.includes(teacherProfile)
   }
 }
