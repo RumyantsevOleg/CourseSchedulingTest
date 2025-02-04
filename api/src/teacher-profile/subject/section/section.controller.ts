@@ -1,8 +1,9 @@
-import { Controller, Get, Post, Body, Param, Delete, ParseUUIDPipe } from '@nestjs/common'
+import { Controller, Get, Post, Body, Param, Delete, ParseUUIDPipe, UseGuards } from '@nestjs/common'
 import { SectionService } from './section.service'
 import { CreateSectionDto } from './section.dto'
+import { TeacherProfileGuard } from '../../teacher-profile.guard'
 
-// Todo add guard
+@UseGuards(TeacherProfileGuard)
 @Controller('teacher-profile/:teacherProfileId/subjects/:subjectId/sections')
 export class SectionController {
   constructor(private readonly sectionService: SectionService) {}

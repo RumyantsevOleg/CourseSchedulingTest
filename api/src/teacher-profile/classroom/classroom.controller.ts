@@ -1,8 +1,10 @@
-import { Controller, Get, Post, Body, Param, ParseUUIDPipe } from '@nestjs/common'
+import { Controller, Get, Post, Body, Param, ParseUUIDPipe, UseGuards } from '@nestjs/common'
 import { ClassroomService } from './classroom.service'
 import { ClassroomDto } from './classroom.dto'
+import { TeacherProfileGuard } from '../teacher-profile.guard'
 
-@Controller('teacher-profiles/:teacherId/classrooms')
+@UseGuards(TeacherProfileGuard)
+@Controller('teacher-profiles/:teacherProfileId/classrooms')
 export class ClassroomController {
   constructor(private readonly classroomService: ClassroomService) {}
 
@@ -12,7 +14,7 @@ export class ClassroomController {
   }
 
   @Get()
-  findMany(@Param('teacherId', new ParseUUIDPipe()) teacherId: string) {
-    return this.classroomService.findMany(teacherId)
+  findMany(@Param('teacherProfileId', new ParseUUIDPipe()) teacherProfileId: string) {
+    return this.classroomService.findMany(teacherProfileId)
   }
 }

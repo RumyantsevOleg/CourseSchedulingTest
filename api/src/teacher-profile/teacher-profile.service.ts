@@ -3,7 +3,7 @@ import { TeacherProfileDto } from './teacher-profile.dto'
 
 @Injectable()
 export class TeacherProfileService {
-  findOne(id: number) {
+  findOne(id: string) {
     return `This action returns a #${id} teacher`
   }
 }

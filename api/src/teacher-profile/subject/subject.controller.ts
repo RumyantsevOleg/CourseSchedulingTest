@@ -1,6 +1,8 @@
-import { Controller, Get, Param, ParseUUIDPipe } from '@nestjs/common'
+import { Controller, Get, Param, ParseUUIDPipe, UseGuards } from '@nestjs/common'
 import { SubjectService } from './subject.service'
+import { TeacherProfileGuard } from '../teacher-profile.guard'
 
+@UseGuards(TeacherProfileGuard)
 @Controller('teacher-profiles/:teacherProfileId/subjects')
 export class SubjectController {
   constructor(private readonly subjectService: SubjectService) {}
