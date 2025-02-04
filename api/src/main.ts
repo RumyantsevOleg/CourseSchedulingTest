@@ -3,6 +3,7 @@ import { Logger, ValidationPipe, VersioningType } from '@nestjs/common'
 import { NestExpressApplication } from '@nestjs/platform-express'
 import { ConfigService } from '@nestjs/config'
 import { NextFunction, Request, Response } from 'express'
+import * as cookieParser from 'cookie-parser'
 
 import { AppModule } from './app.module'
 
@@ -29,6 +30,8 @@ async function bootstrap() {
 
   const configService: ConfigService<AppConfigType> = app.get(ConfigService)
   const { apiPort } = configService.get<AppConfigType['api']>('api')!
+
+  app.use(cookieParser())
 
   app.enableCors({
     origin: '*',

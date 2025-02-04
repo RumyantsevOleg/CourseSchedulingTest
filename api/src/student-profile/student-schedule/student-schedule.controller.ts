@@ -37,7 +37,7 @@ export class StudentScheduleController {
   ) {
     const stream = res.writeHead(200, {
       'Content-Type': 'application/pdf',
-      'Content-Disposition': 'attachment;filename=schedule.pdf',
+      'Content-Disposition': 'inline;filename=schedule.pdf',
     })
 
     const scheduleData = await this.scheduleService.getStudentSchedules(studentProfileId)

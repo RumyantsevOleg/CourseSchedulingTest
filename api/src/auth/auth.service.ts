@@ -11,8 +11,8 @@ export class AuthService {
   private generateAccessToken(payload: AccessJwtDto): string {
     return generateJwtToken({
       userId: payload.userId,
-      teacherProfileId: payload.teacherProfileIds || [],
-      studentProfileId: payload.studentProfileIds || [],
+      teacherProfileIds: payload.teacherProfileIds || [],
+      studentProfileIds: payload.studentProfileIds || [],
     })
   }
 

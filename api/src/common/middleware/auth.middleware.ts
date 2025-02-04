@@ -7,6 +7,7 @@ import { verifyJwtToken } from '../utilities/crypto'
 export class AuthMiddleware implements NestMiddleware {
   public use(req: Request & { [key: string]: any }, res: Response, next: () => any) {
     const Authorization = req.header('Authorization') || req.cookies?.Authorization
+
     if (typeof Authorization !== 'string') {
       req.user = null
       return next()
