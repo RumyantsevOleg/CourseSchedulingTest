@@ -1,11 +1,12 @@
-import { Controller, Get, Post, Body, Param, Delete, ParseUUIDPipe, Res } from '@nestjs/common'
+import { Controller, Get, Post, Body, Param, Delete, ParseUUIDPipe, Res, UseGuards } from '@nestjs/common'
 import { Response } from 'express'
 import { StudentScheduleService } from './student-schedule.service'
 import { CreateScheduleDto } from './student-schedule.dto'
 
 import { generatePDFSchedule } from '../../common/utilities/pdf'
+import { StudentProfileGuard } from '../student-profile.guard'
 
-// Todo Add Guard
+@UseGuards(StudentProfileGuard)
 @Controller('student-profiles/:studentProfileId/schedules')
 export class StudentScheduleController {
   constructor(private readonly scheduleService: StudentScheduleService) {}

@@ -1,10 +1,11 @@
-import { Controller, Post, Body } from '@nestjs/common'
+import { Controller, Post, Body, UseGuards } from '@nestjs/common'
 import { StudentProfileService } from './student-profile.service'
 import { CreateStudentProfileDto } from './student-profile.dto'
 import { AccessJwtPayload } from '../common/decorators/auth.decorator'
 import { AccessJwtDto } from '../common/types'
+import { StudentProfileGuard } from './student-profile.guard'
 
-// Todo Add Guard
+@UseGuards(StudentProfileGuard)
 @Controller('student-profiles')
 export class StudentProfileController {
   constructor(private readonly studentService: StudentProfileService) {}

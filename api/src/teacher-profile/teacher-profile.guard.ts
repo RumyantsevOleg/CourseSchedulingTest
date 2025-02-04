@@ -12,7 +12,11 @@ export class TeacherProfileGuard implements CanActivate {
 
     const user = request.user as AccessJwtDto
 
-    if (user.teacherProfileIds.includes(request?.params?.teacherId)) {
+    const teacherProfile = request?.params?.teacherProfileId
+    if (!teacherProfile) {
+      return true
+    }
+    if (user.teacherProfileIds.includes(teacherProfile)) {
       return true
     }
 

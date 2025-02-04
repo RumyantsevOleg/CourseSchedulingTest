@@ -2,7 +2,6 @@ import { Injectable, CanActivate, ExecutionContext, ForbiddenException } from '@
 import { Reflector } from '@nestjs/core'
 import { AccessJwtDto } from '../common/types'
 
-// Todo not connected
 @Injectable()
 export class StudentProfileGuard implements CanActivate {
   constructor(private reflector: Reflector) {}
@@ -12,7 +11,11 @@ export class StudentProfileGuard implements CanActivate {
 
     const user = request.user as AccessJwtDto
 
-    if (user.studentProfileIds.includes(request.user.id)) {
+    const studentProfileId = request.user.studentProfileId
+    if (!studentProfileId) {
+      return true
+    }
+    if (user.studentProfileIds.includes(studentProfileId)) {
       return true
     }
 
