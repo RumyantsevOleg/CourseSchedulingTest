@@ -6,14 +6,21 @@ import { verifyJwtToken } from '../utilities/crypto'
 @Injectable()
 export class AuthMiddleware implements NestMiddleware {
   public use(req: Request & { [key: string]: any }, res: Response, next: () => any) {
-    const accessToken = req.header('access-token') // Todo we can use cookies
+    const Authorization = req.header('Authorization') || req.cookies?.Authorization
+    if (typeof Authorization !== 'string') {
+      req.user = null
+      return next()
+    }
 
-    if (accessToken) {
+    const [authType, token] = Authorization?.split(' ')
+    if (authType !== 'Bearer') {
+      throw new UnauthorizedException('Invalid Authorization Type')
+    }
+
+    if (token) {
       try {
-        const user = verifyJwtToken(accessToken)
-
         // Todo We can use specific method to change req (without direct modification)
-        req.user = user
+        req.user = verifyJwtToken(token)
 
         return next()
       } catch (err) {
