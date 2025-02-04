@@ -17,16 +17,4 @@ export class ClassroomService {
       },
     })
   }
-
-  findOne(id: number) {
-    return `This action returns a #${id} classroom`
-  }
-
-  update(id: number, updateClassroomDto) {
-    return `This action updates a #${id} classroom`
-  }
-
-  remove(id: number) {
-    return `This action removes a #${id} classroom`
-  }
 }

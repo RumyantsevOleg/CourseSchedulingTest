@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common'
+import { Controller, Post, Body } from '@nestjs/common'
 import { StudentProfileService } from './student-profile.service'
 import { CreateStudentProfileDto } from './student-profile.dto'
 import { AccessJwtPayload } from '../common/decorators/auth.decorator'
@@ -16,25 +16,5 @@ export class StudentProfileController {
   ) {
     // Todo We should update token after creation of profile
     return await this.studentService.createProfile(createStudentDto, accessJwtPayload.userId)
-  }
-
-  @Get()
-  findAll() {
-    return this.studentService.findAll()
-  }
-
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.studentService.findOne(id)
-  }
-
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateStudentDto) {
-    return this.studentService.update(id, updateStudentDto)
-  }
-
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.studentService.remove(id)
   }
 }
