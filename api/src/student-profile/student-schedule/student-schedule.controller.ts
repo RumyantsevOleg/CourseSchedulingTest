@@ -6,35 +6,41 @@ import { CreateScheduleDto } from './student-schedule.dto'
 import { generatePDFSchedule } from '../../common/utilities/pdf'
 
 // Todo Add Guard
-@Controller('student-profiles/:studentId/schedules')
+@Controller('student-profiles/:studentProfileId/schedules')
 export class StudentScheduleController {
   constructor(private readonly scheduleService: StudentScheduleService) {}
 
   @Post()
-  public async create(@Body() createScheduleDto: CreateScheduleDto, @Param('studentId') studentId: string) {
-    return await this.scheduleService.createSectionSubscription(createScheduleDto, studentId)
+  public async create(
+    @Body() createScheduleDto: CreateScheduleDto,
+    @Param('studentProfileId') studentProfileId: string,
+  ) {
+    return await this.scheduleService.createSectionSubscription(createScheduleDto, studentProfileId)
   }
 
   @Delete(':scheduleId')
-  public async delete(@Param('scheduleId') scheduleId: string, @Param('studentId') studentId: string) {
-    return await this.scheduleService.delete(scheduleId, studentId)
+  public async delete(@Param('scheduleId') scheduleId: string, @Param('studentProfileId') studentProfileId: string) {
+    return await this.scheduleService.delete(scheduleId, studentProfileId)
   }
 
   @Get()
-  public async findAll(@Param('studentId', new ParseUUIDPipe()) studentId: string) {
-    return this.scheduleService.getStudentSchedules(studentId)
+  public async findAll(@Param('studentProfileId', new ParseUUIDPipe()) studentProfileId: string) {
+    return this.scheduleService.getStudentSchedules(studentProfileId)
   }
 
   // Todo this is temporary solution. It is good idea to render files with queue and save it with S3. Or implement cashing
   @Get('/pdf')
-  public async getPdfSchedule(@Param('studentId', new ParseUUIDPipe()) studentId: string, @Res() res: Response) {
+  public async getPdfSchedule(
+    @Param('studentProfileId', new ParseUUIDPipe()) studentProfileId: string,
+    @Res() res: Response,
+  ) {
     const stream = res.writeHead(200, {
       'Content-Type': 'application/pdf',
       'Content-Disposition': 'attachment;filename=schedule.pdf',
     })
 
-    const scheduleData = await this.scheduleService.getStudentSchedules(studentId)
+    const scheduleData = await this.scheduleService.getStudentSchedules(studentProfileId)
 
-    return generatePDFSchedule(scheduleData, studentId, stream)
+    return generatePDFSchedule(scheduleData, studentProfileId, stream)
   }
 }
