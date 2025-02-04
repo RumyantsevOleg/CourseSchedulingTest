@@ -1,11 +1,17 @@
 import { scrypt, randomBytes, timingSafeEqual } from 'node:crypto'
 import * as jwt from 'jsonwebtoken'
+import * as process from 'node:process'
 
-const JWT_SECRET = 'your_secret_key' // Todo get from env
-const JWT_EXPIRES_IN = '1h' // Todo get from env
+// Todo we should have config service with data validation
+// Todo we should have Access and Refresh tokens
+const { JWT_SECRET, JWT_EXPIRES_IN } = process.env
+if (!JWT_SECRET || !JWT_EXPIRES_IN) {
+  throw new Error('Invalid JWT_SECRET')
+}
 
 export function generateJwtToken(payload: object): string {
-  return jwt.sign(payload, JWT_SECRET, { expiresIn: JWT_EXPIRES_IN })
+  // Todo we should not use any
+  return jwt.sign(payload, JWT_SECRET, { expiresIn: JWT_EXPIRES_IN as any })
 }
 
 export function verifyJwtToken(token: string): object | string | boolean {
